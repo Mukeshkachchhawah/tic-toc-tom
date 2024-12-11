@@ -107,6 +107,7 @@ class TicTacToeScreen extends StatelessWidget {
             ),
           ),
           // Board
+          /* 
           Expanded(
             child: GridView.builder(
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -132,6 +133,35 @@ class TicTacToeScreen extends StatelessWidget {
               ),
             ),
           ),
+         */
+
+          Expanded(
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+              ),
+              itemCount: 9,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    game.makeMove(index);
+                  },
+                  child: Container(
+                    color: Colors.grey[200],
+                    child: game.board[index] == null
+                        ? null
+                        : Image.asset(
+                            game.board[index]!,
+                            fit: BoxFit.cover,
+                          ),
+                  ),
+                );
+              },
+            ),
+          ),
+
           // Next Level Button
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -145,3 +175,65 @@ class TicTacToeScreen extends StatelessWidget {
     );
   }
 }
+
+/* 
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:tic_toc_tom/provider.dart';
+
+class TicTacToeGame extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Tic Tac Toe'),
+      ),
+      body: Consumer<TicTacToeProvider>(
+        builder: (context, provider, child) {
+          return Column(
+            children: [
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 5,
+                    mainAxisSpacing: 5,
+                  ),
+                  itemCount: 9,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        provider.makeMove(index);
+                      },
+                      child: Container(
+                        color: Colors.grey[200],
+                        child: provider.board[index] == null
+                            ? null
+                            : Image.asset(
+                                provider.board[index]!,
+                                fit: BoxFit.cover,
+                              ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+         
+         
+         
+              Text(
+                'Current Player: ${provider.currentPlayer}',
+                style: TextStyle(fontSize: 18),
+              ),
+              ElevatedButton(
+                onPressed: provider.resetGame,
+                child: Text('Reset Game'),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+ */
